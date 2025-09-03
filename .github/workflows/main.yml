@@ -1,12 +1,7 @@
-name: Enerflux Data Machine
+name: Enerflux Data Machine (daily test)
 
 on:
-  schedule:
-    # Daily WTI (04:15 UTC)
-    - cron: '15 4 * * *'
-    # Weekly pack le lundi (05:30 UTC)
-    - cron: '30 5 * * MON'
-  workflow_dispatch:
+  workflow_dispatch:  # bouton "Run workflow" manuel
 
 jobs:
   run-pipeline:
@@ -25,24 +20,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-         - name: Run daily job (WTI only for test)
+      - name: Run daily job (WTI only for test)
         run: |
           python ci_run.py daily
-          
-        env:
-          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
-          R2_BUCKET: ${{ secrets.R2_BUCKET }}
-          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            python ci_run.py weekly || python ci_run.py daily
-          else
-            day=$(date -u +%u)
-            hour=$(date -u +%H)
-            if [ "$day" = "1" ] && [ "$hour" = "05" ]; then
-              python ci_run.py weekly
-            else
-              python ci_run.py daily
-            fi
-          fi
