@@ -10,7 +10,7 @@ def build_weekly(wti_csv="pipeline/outputs/WTI_DAILY_latest.csv"):
 
     csv_out = f"pipeline/outputs/ENERGY_WEEKLY_{week}.csv"
     pdf_out = f"pipeline/outputs/ENERGY_WEEKLY_{week}.pdf"
-    os.makedirs(os.path.dirname(csv_out), exist_ok=True)  # <-- crée le dossier
+    os.makedirs(os.path.dirname(csv_out), exist_ok=True)  # sécurise le dossier
 
     df.tail(12).to_csv(csv_out, index=False)
 
@@ -24,7 +24,7 @@ def build_weekly(wti_csv="pipeline/outputs/WTI_DAILY_latest.csv"):
 if __name__ == "__main__":
     week, csv_out, pdf_out = build_weekly()
     print("built:", csv_out, pdf_out)
-    # Importer r2_push UNIQUEMENT si on a les secrets (sinon pas de push)
+    # Importer r2_push uniquement si les secrets existent (sinon pas de push)
     if os.environ.get("R2_ACCOUNT_ID"):
         from r2_push import push
         push(csv_out, "ENERGY-WEEKLY", f"{week}.csv")
