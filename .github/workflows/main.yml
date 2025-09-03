@@ -25,7 +25,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run daily job (WTI) or weekly (manual override)
+         - name: Run daily job (WTI only for test)
+        run: |
+          python ci_run.py daily
+          
         env:
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
