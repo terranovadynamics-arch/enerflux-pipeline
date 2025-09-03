@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-import io, datetime as dt
+import io, os
 import pandas as pd, requests
 
 FRED_SERIES = "DCOILWTICO"  # WTI spot price
 CSV_URL = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={FRED_SERIES}"
 
 def fetch_wti():
-    # User-Agent pour éviter une page HTML
+    # User-Agent pour éviter une page HTML sur certains runners
     r = requests.get(CSV_URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
     r.raise_for_status()
     df = pd.read_csv(io.StringIO(r.text))
@@ -33,5 +33,6 @@ def fetch_wti():
 if __name__ == "__main__":
     df = fetch_wti()
     out = "pipeline/outputs/WTI_DAILY_latest.csv"
+    os.makedirs(os.path.dirname(out), exist_ok=True)  # <-- crée le dossier
     df.to_csv(out, index=False)
     print("saved:", out, len(df))
