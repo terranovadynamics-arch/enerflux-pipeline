@@ -32,7 +32,8 @@ def fetch_wti():
 
 if __name__ == "__main__":
     df = fetch_wti()
-    out = "pipeline/outputs/WTI_DAILY_latest.csv"
-    os.makedirs(os.path.dirname(out), exist_ok=True)  # <-- crée le dossier
+    out_dir = "pipeline/outputs"
+    os.makedirs(out_dir, exist_ok=True)            # <-- crée le dossier quoi qu'il arrive
+    out = f"{out_dir}/WTI_DAILY_latest.csv"
     df.to_csv(out, index=False)
     print("saved:", out, len(df))
