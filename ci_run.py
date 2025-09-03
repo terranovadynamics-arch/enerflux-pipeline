@@ -6,14 +6,14 @@ def run(cmd):
     print("$", " ".join(cmd)); subprocess.check_call(cmd)
 
 def main():
-    # assure que le dossier existe avant toute écriture
+    # ceinture et bretelles : crée le répertoire de sortie
     Path("pipeline/outputs").mkdir(parents=True, exist_ok=True)
 
     job = sys.argv[1] if len(sys.argv) > 1 else "daily"
 
     if job == "daily":
         # 1) collecte quotidienne WTI
-        run([sys.executable, "pipeline/collectors/fred_wti.py"])  # crée pipeline/outputs/WTI_DAILY_latest.csv
+        run([sys.executable, "pipeline/collectors/fred_wti.py"])
 
         # 2) push vers R2 si secrets présents
         if os.environ.get("R2_ACCOUNT_ID"):
