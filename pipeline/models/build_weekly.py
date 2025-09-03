@@ -20,7 +20,7 @@ def build_weekly(wti_csv="pipeline/outputs/WTI_DAILY_latest.csv"):
 if __name__ == "__main__":
     week, csv_out, pdf_out = build_weekly()
     print("built:", csv_out, pdf_out)
-    # N'IMPORTER r2_push QUE SI on a les secrets (sinon pas de push)
+    # Importer r2_push UNIQUEMENT si les secrets existent (sinon pas de push)
     if os.environ.get("R2_ACCOUNT_ID"):
         from r2_push import push
         push(csv_out, "ENERGY-WEEKLY", f"{week}.csv")
