@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
-import io, os
+import io
+from pathlib import Path
 import pandas as pd, requests
 
 FRED_SERIES = "DCOILWTICO"  # WTI spot price
 CSV_URL = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={FRED_SERIES}"
 
 def fetch_wti():
-    # User-Agent pour éviter une page HTML sur certains runners
+    # User-Agent pour éviter une éventuelle page HTML
     r = requests.get(CSV_URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
     r.raise_for_status()
     df = pd.read_csv(io.StringIO(r.text))
+
     # normaliser les colonnes
     df.columns = [c.strip().lower() for c in df.columns]
 
-    # Accepter 'date' OU 'observation_date'
+    # accepter 'date' OU 'observation_date'
     date_col = None
     for candidate in ("date", "observation_date"):
         if candidate in df.columns:
@@ -32,8 +34,7 @@ def fetch_wti():
 
 if __name__ == "__main__":
     df = fetch_wti()
-    out_dir = "pipeline/outputs"
-    os.makedirs(out_dir, exist_ok=True)            # <-- crée le dossier quoi qu'il arrive
-    out = f"{out_dir}/WTI_DAILY_latest.csv"
-    df.to_csv(out, index=False)
-    print("saved:", out, len(df))
+    out_path = Path("pipeline/outputs/WTI_DAILY_latest.csv")
+    out_path.parent.mkdir(parents=True, exist_ok=True)  # <-- crée le dossier
+    df.to_csv(out_path, index=False)
+    print("saved:", out_path.as_posix(), len(df))
