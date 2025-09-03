@@ -23,3 +23,6 @@ jobs:
       - name: Run daily job (WTI only for test)
         run: |
           python ci_run.py daily
+          
+      - name: Prepare output dir
+        run: mkdir -p pipeline/outputs
