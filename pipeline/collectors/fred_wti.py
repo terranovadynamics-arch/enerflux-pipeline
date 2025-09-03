@@ -33,7 +33,7 @@ def fetch_wti():
     return df
 
 if __name__ == "__main__":
-    # debug utile dans les logs, pour vérifier qu'on exécute le BON fichier
+    # traces utiles pour confirmer que c'est la BONNE copie du fichier
     print("[fred_wti] cwd:", Path.cwd())
     print("[fred_wti] here:", Path(__file__).resolve())
 
