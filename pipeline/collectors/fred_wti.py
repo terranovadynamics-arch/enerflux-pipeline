@@ -33,6 +33,10 @@ def fetch_wti():
     return df
 
 if __name__ == "__main__":
+    # debug utile dans les logs, pour vérifier qu'on exécute le BON fichier
+    print("[fred_wti] cwd:", Path.cwd())
+    print("[fred_wti] here:", Path(__file__).resolve())
+
     df = fetch_wti()
     out_path = Path("pipeline/outputs/WTI_DAILY_latest.csv")
     out_path.parent.mkdir(parents=True, exist_ok=True)  # <-- crée le dossier
