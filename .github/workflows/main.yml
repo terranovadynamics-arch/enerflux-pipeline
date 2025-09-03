@@ -23,9 +23,15 @@ jobs:
       - name: Prepare output dir
         run: mkdir -p pipeline/outputs
 
+      - name: Debug tree
+        run: |
+          pwd
+          ls -la
+          echo "----- pipeline -----"
+          ls -la pipeline || true
+          echo "----- outputs -----"
+          ls -la pipeline/outputs || true
+
       - name: Run daily job (WTI only for test)
         run: |
           python ci_run.py daily
-          
-      - name: Prepare output dir
-        run: mkdir -p pipeline/outputs
