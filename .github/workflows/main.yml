@@ -1,4 +1,77 @@
-name: Enerflux Data Machine
+name: Enerflux Data Pipeline (Daily)
+
+on:
+  workflow_dispatch:  # Manual trigger
+  schedule:
+    - cron: '0 12 * * *'  # Daily at 12:00 UTC (adjust to your timezone)
+
+jobs:
+  data-collection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30  # Prevent hanging jobs
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            echo "Installing minimum required packages"
+            pip install pandas requests
+          fi
+
+      - name: Create output directories
+        run: |
+          mkdir -p pipeline/outputs
+          mkdir -p pipeline/logs
+
+      - name: Verify environment
+        run: |
+          echo "Python version: $(python --version)"
+          echo "Pip version: $(pip --version)"
+          echo "Directory structure:"
+          find . -name "*.py" -path "*/pipeline/*" | head -10
+
+      - name: Execute data pipeline
+        run: |
+          set -e  # Exit immediately on error
+          if [ -f "ci_run.py" ]; then
+            echo "Running via ci_run.py"
+            python ci_run.py daily
+          else
+            echo "Running fred_wti.py directly"
+            python pipeline/collectors/fred_wti.py
+          fi
+          
+      - name: Verify output
+        run: |
+          echo "Generated files:"
+          ls -la pipeline/outputs/ || echo "No outputs directory"
+          if [ -f "pipeline/outputs/WTI_DAILY_latest.csv" ]; then
+            echo "Output file details:"
+            wc -l pipeline/outputs/WTI_DAILY_latest.csv
+            head -3 pipeline/outputs/WTI_DAILY_latest.csv
+          fi
+
+      - name: Upload artifacts (optional)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wti-data
+          path: pipeline/outputs/
+          retention-days: 7name: Enerflux Data Machine
 
 on:
   workflow_dispatch:
