@@ -52,9 +52,9 @@ jobs:
         shell: bash
         run: |
           python - <<'PY'
-import os
-print("Sanity NDL_API_KEY set:", bool(os.getenv("NDL_API_KEY")))
-PY
+          import os
+          print("Sanity NDL_API_KEY set:", bool(os.getenv("NDL_API_KEY")))
+          PY
           job="${{ inputs.job }}"
           if [ -z "$job" ]; then job="daily"; fi
           echo "Running job=$job"
