@@ -41,17 +41,20 @@ jobs:
       - name: Ensure outputs dir
         run: mkdir -p pipeline/outputs
 
-      - name: Run pipeline
+           - name: Run pipeline
         env:
-          # Cloudflare R2 (si déjà en place)
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          # Nasdaq Data Link
           NDL_API_KEY: ${{ secrets.NDL_API_KEY }}
+          PYTHONPATH: ${{ github.workspace }}
         shell: bash
         run: |
+          python - <<'PY'
+import os
+print("Sanity NDL_API_KEY set:", bool(os.getenv("NDL_API_KEY")))
+PY
           job="${{ inputs.job }}"
           if [ -z "$job" ]; then job="daily"; fi
           echo "Running job=$job"
