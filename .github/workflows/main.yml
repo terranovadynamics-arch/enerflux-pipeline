@@ -8,12 +8,10 @@ on:
         type: choice
         required: true
         default: daily
-        options:
-          - daily
-          - weekly
+        options: [daily, weekly]
   schedule:
-    - cron: '0 0 * * *'      # Daily à 00:00 UTC
-    - cron: '30 5 * * MON'   # Weekly le lundi 05:30 UTC
+    - cron: '0 0 * * *'      # daily 00:00 UTC
+    - cron: '30 5 * * MON'   # weekly Monday 05:30 UTC
 
 jobs:
   run-pipeline:
@@ -37,37 +35,24 @@ jobs:
           if [ -f requirements.txt ]; then
             pip install -r requirements.txt
           else
-            echo "requirements.txt not found, installing basic packages"
             pip install pandas requests boto3 botocore matplotlib
           fi
 
-      - name: Prepare output dir
+      - name: Ensure outputs dir
         run: mkdir -p pipeline/outputs
 
-      - name: Debug tree (manual runs)
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        run: |
-          pwd
-          ls -la
-          echo "----- pipeline -----"; ls -la pipeline || true
-          echo "----- outputs  -----"; ls -la pipeline/outputs || true
-
-      - name: Run pipeline (daily/weekly)
+      - name: Run pipeline
         env:
+          # Cloudflare R2 (si déjà en place)
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          # Nasdaq Data Link
+          NDL_API_KEY: ${{ secrets.NDL_API_KEY }}
         shell: bash
         run: |
           job="${{ inputs.job }}"
-          if [ -z "$job" ]; then
-            day=$(date -u +%u); hm=$(date -u +%H%M)
-            if [ "$day" = "1" ] && [ "$hm" = "0530" ]; then
-              job="weekly"
-            else
-              job="daily"
-            fi
-          fi
+          if [ -z "$job" ]; then job="daily"; fi
           echo "Running job=$job"
           python ci_run.py "$job"
