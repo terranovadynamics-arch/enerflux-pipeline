@@ -1,0 +1,10 @@
+name = "enerflux-latest"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "enerflux-prod"
+
+[vars]
+CORS_ORIGINS = "*"
