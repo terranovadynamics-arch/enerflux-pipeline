@@ -41,7 +41,7 @@ jobs:
       - name: Ensure outputs dir
         run: mkdir -p pipeline/outputs
 
-           - name: Run pipeline
+      - name: Run pipeline
         env:
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
