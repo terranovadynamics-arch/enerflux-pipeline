@@ -57,6 +57,7 @@ function guessType(key) {
   if (key.endsWith(".csv")) return "text/csv; charset=utf-8";
   if (key.endsWith(".pdf")) return "application/pdf";
   if (key.endsWith(".sha256")) return "text/plain; charset=utf-8";
+  if (key.endsWith(".xlsx")) return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
   return "application/octet-stream";
 }
 
