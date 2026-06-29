@@ -67,3 +67,29 @@ def test_suspicious_not_auto_validated(configured_env):
     scam = next(d for d in deals if d.is_suspicious)
     assert scam.is_alert is False
     assert "arnaque" in scam.reason.lower()
+
+
+def test_reference_price_pools_across_sources(tmp_path, monkeypatch):
+    """Le prix de référence est la médiane SUR L'ENSEMBLE DES SOURCES.
+
+    ebay seul -> médiane Submariner full = 14800.
+    ebay + bobs_watches (16000, 17000) -> médiane pooled = 15200.
+    """
+    monkeypatch.setenv("USE_FIXTURES", "true")
+    monkeypatch.setenv("NOTIFY_CHANNELS", "console")
+    monkeypatch.setenv("ENABLED_SOURCES", "ebay,bobs_watches")
+    monkeypatch.setenv("MIN_COMPARABLES", "3")
+    monkeypatch.setenv("DB_PATH", str(tmp_path / "multi.db"))
+    get_settings.cache_clear()
+    try:
+        from dealhunter.orchestrator import Orchestrator
+
+        orch = Orchestrator()
+        deals = orch.run_once()
+        sub_deal = next(
+            d for d in deals
+            if d.listing.reference == "126610LN" and d.listing.asking_price_usd == 12600
+        )
+        assert sub_deal.reference_price_usd == 15200
+    finally:
+        get_settings.cache_clear()

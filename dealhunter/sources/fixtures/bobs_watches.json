@@ -1,0 +1,18 @@
+[
+  {
+    "brand": "Rolex", "model": "Submariner", "reference": "126610LN", "year": 2023,
+    "condition": "unworn", "set": "full", "asking_price_usd": 16000,
+    "currency_original": "USD", "seller": "Bob's Watches", "seller_feedback": 99.9,
+    "seller_sales_count": 25000, "location": "US",
+    "url": "https://www.bobswatches.com/itm/demo-sub-A", "images": ["https://img/bw-a.jpg"],
+    "source": "bobs_watches"
+  },
+  {
+    "brand": "Rolex", "model": "Submariner", "reference": "126610LN", "year": 2022,
+    "condition": "very good", "set": "full", "asking_price_usd": 17000,
+    "currency_original": "USD", "seller": "Bob's Watches", "seller_feedback": 99.9,
+    "seller_sales_count": 25000, "location": "US",
+    "url": "https://www.bobswatches.com/itm/demo-sub-B", "images": ["https://img/bw-b.jpg"],
+    "source": "bobs_watches"
+  }
+]
