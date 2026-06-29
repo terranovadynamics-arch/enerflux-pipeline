@@ -98,6 +98,36 @@ s'affichent directement dans les logs — aucune clé API ni SMTP requis.
 - **systemd** : voir [`deploy/dealhunter.service`](deploy/dealhunter.service)
 - **cron** : voir [`deploy/crontab.example`](deploy/crontab.example)
 
+## Lancement sur Windows (PowerShell)
+
+Ta machine Windows a déjà Internet : **ni VPS ni relais nécessaires**.
+
+```powershell
+# 1) Outils (si absents) :
+winget install Git.Git
+winget install Python.Python.3.12
+# Ferme/rouvre PowerShell après installation.
+
+# 2) Installe Deal Hunter (clone + venv + deps + .env) :
+git clone -b claude/deal-hunter-watch-agent-x3kt13 `
+  https://github.com/terranovadynamics-arch/enerflux-pipeline.git `
+  $env:USERPROFILE\dealhunter
+cd $env:USERPROFILE\dealhunter
+powershell -ExecutionPolicy Bypass -File .\deploy\install_windows.ps1
+
+# 3) Démo immédiate (résultats d'exemple, sans aucune clé) :
+$env:USE_FIXTURES='true'; $env:NOTIFY_CHANNELS='console'
+.\.venv\Scripts\python.exe -m dealhunter --once
+
+# 4) Cycle réel : édite .env (clé eBay + SMTP) puis :
+notepad .env
+.\.venv\Scripts\python.exe -m dealhunter --once     # un cycle
+.\.venv\Scripts\python.exe -m dealhunter            # mode non-stop
+```
+
+> Secret aléatoire en PowerShell (si tu utilises le relais) :
+> `-join ((48..57)+(97..102) | Get-Random -Count 48 | %{[char]$_})`
+
 ## Déploiement sur un VPS (recommandé pour le "non-stop")
 
 Un VPS (Debian/Ubuntu) avec accès Internet permet eBay live **et** les alertes

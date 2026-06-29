@@ -6,6 +6,12 @@ import sys
 
 
 def setup_logging(level: str = "INFO") -> None:
+    # Force l'UTF-8 sur la sortie (évite les UnicodeEncodeError sous Windows
+    # PowerShell, dont l'encodage par défaut casse sur les emojis ⚠️ etc.).
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[attr-defined]
+    except (AttributeError, ValueError):
+        pass
     handler = logging.StreamHandler(sys.stdout)
     handler.setFormatter(
         logging.Formatter(
