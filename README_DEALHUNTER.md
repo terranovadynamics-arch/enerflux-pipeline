@@ -83,8 +83,15 @@ USE_FIXTURES=true python -m dealhunter --once
 ```
 
 Utilise des annonces d'exemple (`dealhunter/sources/fixtures/`) pour démontrer le
-pipeline complet : il doit détecter une bonne affaire sur la Submariner et une
-annonce suspecte (décote anormale).
+pipeline complet de bout en bout. Résultat attendu : **3 bonnes affaires**
+(Rolex Submariner, AP Royal Oak, Patek Calatrava) + **1 annonce suspecte**
+(décote anormale → flag arnaque). Avec `NOTIFY_CHANNELS=console`, les affaires
+s'affichent directement dans les logs — aucune clé API ni SMTP requis.
+
+> **Note environnement** : si vous exécutez ceci dans un bac à sable dont la
+> politique réseau bloque les hôtes externes (eBay, sites de montres), seules les
+> fixtures fonctionneront. Lancez l'agent sur une machine avec accès Internet
+> (et une clé eBay) pour obtenir des résultats en direct.
 
 ## Exécution en arrière-plan (service)
 

@@ -62,5 +62,37 @@
     "seller_sales_count": 410, "location": "US",
     "url": "https://www.ebay.com/itm/demo-ro-DEAL", "images": ["https://img/rodeal.jpg"],
     "source": "ebay"
+  },
+  {
+    "brand": "Patek Philippe", "model": "Calatrava", "reference": "5227", "year": 2019,
+    "condition": "very good", "set": "full", "asking_price_usd": 31000,
+    "currency_original": "USD", "seller": "patek_specialist", "seller_feedback": 99.8,
+    "seller_sales_count": 870, "location": "US",
+    "url": "https://www.ebay.com/itm/demo-cala-1", "images": ["https://img/cala1.jpg"],
+    "source": "ebay"
+  },
+  {
+    "brand": "Patek Philippe", "model": "Calatrava", "reference": "5227", "year": 2018,
+    "condition": "good", "set": "papers-only", "asking_price_usd": 30000,
+    "currency_original": "USD", "seller": "geneva_time", "seller_feedback": 99.4,
+    "seller_sales_count": 1230, "location": "US",
+    "url": "https://www.ebay.com/itm/demo-cala-2", "images": ["https://img/cala2.jpg"],
+    "source": "ebay"
+  },
+  {
+    "brand": "Patek Philippe", "model": "Calatrava", "reference": "5227", "year": 2020,
+    "condition": "unworn", "set": "full", "asking_price_usd": 32000,
+    "currency_original": "USD", "seller": "luxe_geneve", "seller_feedback": 100.0,
+    "seller_sales_count": 3400, "location": "US",
+    "url": "https://www.ebay.com/itm/demo-cala-3", "images": ["https://img/cala3.jpg"],
+    "source": "ebay"
+  },
+  {
+    "brand": "Patek Philippe", "model": "Calatrava", "reference": "5227", "year": 2019,
+    "condition": "very good", "set": "full", "asking_price_usd": 25500,
+    "currency_original": "USD", "seller": "estate_horology", "seller_feedback": 99.2,
+    "seller_sales_count": 460, "location": "US",
+    "url": "https://www.ebay.com/itm/demo-cala-DEAL", "images": ["https://img/caladeal.jpg"],
+    "source": "ebay"
   }
 ]

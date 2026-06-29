@@ -82,7 +82,12 @@ class NotifierAgent:
         self.settings = get_settings()
 
     def notify(self, deals: list[Deal]) -> bool:
-        """Envoie un digest sur tous les canaux configurés. True si au moins un OK."""
+        """Envoie un digest sur tous les canaux configurés. True si au moins un OK.
+
+        Garantie "résultats visibles" : si aucun canal n'aboutit (ex. SMTP non
+        configuré), le digest est tout de même affiché en console (fallback) afin
+        que les affaires détectées ne soient jamais perdues silencieusement.
+        """
         if not deals:
             return False
         subject, text, html = build_digest(deals)
@@ -95,11 +100,22 @@ class NotifierAgent:
                 elif channel == "telegram":
                     self._send_telegram(text)
                     sent = True
+                elif channel == "console":
+                    self._send_console(subject, text)
+                    sent = True
                 else:
                     log.warning("Canal de notification inconnu: %s", channel)
             except Exception as exc:  # on n'interrompt pas les autres canaux
                 log.error("Échec notification %s: %s", channel, exc)
+        if not sent:
+            # Fallback : on n'avale jamais un résultat. On affiche en console.
+            log.warning("Aucun canal n'a abouti — affichage console (fallback).")
+            self._send_console(subject, text)
+            sent = True
         return sent
+
+    def _send_console(self, subject: str, text: str) -> None:
+        log.info("\n========== %s ==========\n%s\n%s", subject, text, "=" * 60)
 
     def _send_email(self, subject: str, text: str, html: str) -> None:
         s = self.settings
