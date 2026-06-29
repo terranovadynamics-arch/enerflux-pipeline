@@ -41,6 +41,13 @@ class Settings(BaseSettings):
     )
     http_rate_limit_rps: float = Field(0.5, alias="HTTP_RATE_LIMIT_RPS")
 
+    # --- Moteur de scraping (sources sans API) ------------------------------
+    # "httpx"     : GET simple + selectolax (rapide, fragile face à l'anti-bot)
+    # "scrapling" : moteur Scrapling (TLS navigateur / furtif, parsing adaptatif)
+    scraper_engine: str = Field("httpx", alias="SCRAPER_ENGINE")
+    # True -> StealthyFetcher (vrai navigateur furtif) ; False -> Fetcher (HTTP).
+    scraper_stealth: bool = Field(False, alias="SCRAPER_STEALTH")
+
     # --- Relais Cloudflare Worker (optionnel) -------------------------------
     # Si renseigné, toutes les requêtes des sources passent par ce relais.
     relay_url: str = Field("", alias="RELAY_URL")

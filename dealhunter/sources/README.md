@@ -39,6 +39,30 @@ Dans `.env` :
 ENABLED_SOURCES=ebay,bobs_watches
 ```
 
+## Moteur de scraping (sources sans API)
+
+Deux moteurs, configurables via `SCRAPER_ENGINE` dans `.env` :
+
+| Moteur      | Récupération                              | Quand l'utiliser |
+|-------------|-------------------------------------------|------------------|
+| `httpx`     | GET simple + `selectolax`                 | rapide, sites peu protégés |
+| `scrapling` | [Scrapling](https://github.com/D4Vinci/Scrapling) : empreinte TLS navigateur (`Fetcher`) ou navigateur furtif (`StealthyFetcher` si `SCRAPER_STEALTH=true`) | sites qui bloquent les clients basiques |
+
+```
+SCRAPER_ENGINE=scrapling
+SCRAPER_STEALTH=false        # true => StealthyFetcher (anti-bot, plus lent)
+```
+
+Installation : `pip install "scrapling[fetchers]"` (le parsing marche tel quel) ;
+pour le mode furtif, ajoutez **une fois** `scrapling install` (télécharge le
+navigateur Camoufox). Le mode furtif change l'IP/empreinte, **pas** une garantie
+contre tous les anti-bot — respectez les ToS.
+
+**Parsing générique JSON-LD** : `ScraperSource` extrait automatiquement les
+annonces depuis le balisage `schema.org` `Product`/`Offer` (présent sur beaucoup
+de sites de montres) — souvent des résultats **sans écrire de sélecteurs**. Pour
+un site sans JSON-LD, surchargez `_parse_html()` avec des sélecteurs CSS.
+
 ## Ajouter une nouvelle source en 3 étapes
 
 1. **Créez le module** `dealhunter/sources/ma_source.py` :
@@ -50,6 +74,8 @@ ENABLED_SOURCES=ebay,bobs_watches
        name = "ma_source"
        search_url_template = "https://exemple.com/search?q={q}"
 
+       # Souvent rien à écrire : le parseur JSON-LD générique suffit.
+       # Sinon, surchargez _parse_html() pour des sélecteurs CSS sur-mesure :
        def _parse_html(self, html, query):
            # extrayez les annonces et retournez une list[Listing]
            ...

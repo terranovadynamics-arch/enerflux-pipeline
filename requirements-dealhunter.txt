@@ -6,6 +6,9 @@ pydantic>=2.6.0
 pydantic-settings>=2.2.0
 python-dotenv>=1.0.0
 selectolax>=0.3.21
+# Moteur de scraping anti-détection (sources sans API). Le parsing fonctionne
+# tel quel ; pour StealthyFetcher (navigateur furtif) faites aussi: scrapling install
+scrapling[fetchers]>=0.4.9
 # Optionnel : notifications Telegram (canal secondaire, désactivé par défaut)
 # python-telegram-bot>=21.0
 # Tests
