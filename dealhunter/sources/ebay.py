@@ -14,6 +14,7 @@ import time
 import httpx
 
 from ..models import Listing, Query, SetType
+from .. import transport
 from .base import Source, SourceBlocked, SourceError
 
 OAUTH_URL = "https://api.ebay.com/identity/v1/oauth2/token"
@@ -43,7 +44,8 @@ class EbaySource(Source):
         creds = f"{self.settings.ebay_client_id}:{self.settings.ebay_client_secret}"
         auth = base64.b64encode(creds.encode()).decode()
         self._throttle()
-        resp = httpx.post(
+        resp = transport.request(
+            "POST",
             OAUTH_URL,
             headers={
                 "Authorization": f"Basic {auth}",
@@ -82,7 +84,9 @@ class EbaySource(Source):
         }
         self._throttle()
         try:
-            resp = httpx.get(BROWSE_URL, params=params, headers=headers, timeout=20.0)
+            resp = transport.request(
+                "GET", BROWSE_URL, params=params, headers=headers, timeout=20.0
+            )
         except httpx.HTTPError as exc:
             raise SourceError(f"eBay: erreur réseau {exc}") from exc
         if resp.status_code in (401, 403, 429):

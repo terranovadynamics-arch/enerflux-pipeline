@@ -26,6 +26,7 @@ from tenacity import (
 from ..config import get_settings
 from ..logging_conf import get_logger
 from ..models import Listing, Query
+from .. import transport
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
@@ -93,11 +94,12 @@ class Source(abc.ABC):
         reraise=True,
     )
     def _get(self, url: str, **kwargs) -> httpx.Response:
-        """GET avec user-agent honnête, throttling et backoff exponentiel."""
+        """GET (direct ou via relais Cloudflare) avec UA honnête, throttling, backoff."""
         self._throttle()
         headers = kwargs.pop("headers", {})
         headers.setdefault("User-Agent", self.settings.http_user_agent)
-        resp = httpx.get(url, headers=headers, timeout=20.0, **kwargs)
+        params = kwargs.pop("params", None)
+        resp = transport.request("GET", url, headers=headers, params=params, **kwargs)
         if resp.status_code in (401, 403, 429) or resp.status_code == 503:
             raise SourceBlocked(
                 f"{self.name}: HTTP {resp.status_code} — source bloquée ou quota dépassé"

@@ -98,6 +98,29 @@ s'affichent directement dans les logs — aucune clé API ni SMTP requis.
 - **systemd** : voir [`deploy/dealhunter.service`](deploy/dealhunter.service)
 - **cron** : voir [`deploy/crontab.example`](deploy/crontab.example)
 
+## Déploiement sur un VPS (recommandé pour le "non-stop")
+
+Un VPS (Debian/Ubuntu) avec accès Internet permet eBay live **et** les alertes
+email (SMTP). Script d'installation idempotent : [`deploy/install_vps.sh`](deploy/install_vps.sh).
+
+```bash
+# Sur le VPS, en root (ou sudo) :
+git clone -b claude/deal-hunter-watch-agent-x3kt13 \
+  https://github.com/terranovadynamics-arch/enerflux-pipeline.git /opt/dealhunter
+sudo bash /opt/dealhunter/deploy/install_vps.sh
+```
+
+Le script installe Python, crée un utilisateur de service `dealhunter`, l'env
+virtuel, les dépendances, le `.env` (à compléter) et le service systemd. Ensuite :
+
+```bash
+sudo nano /opt/dealhunter/.env          # 1) clé eBay + SMTP
+sudo -u dealhunter /opt/dealhunter/.venv/bin/python -m dealhunter --check   # 2) vérifier
+cd /opt/dealhunter && sudo -u dealhunter /opt/dealhunter/.venv/bin/python -m dealhunter --once  # 3) test
+sudo systemctl enable --now dealhunter  # 4) lancer en service
+journalctl -u dealhunter -f             #    suivre les logs
+```
+
 ## Configuration (`.env`)
 
 | Variable | Défaut | Rôle |

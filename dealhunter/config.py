@@ -41,6 +41,11 @@ class Settings(BaseSettings):
     )
     http_rate_limit_rps: float = Field(0.5, alias="HTTP_RATE_LIMIT_RPS")
 
+    # --- Relais Cloudflare Worker (optionnel) -------------------------------
+    # Si renseigné, toutes les requêtes des sources passent par ce relais.
+    relay_url: str = Field("", alias="RELAY_URL")
+    relay_secret: str = Field("", alias="RELAY_SECRET")
+
     # --- eBay ----------------------------------------------------------------
     ebay_client_id: str = Field("", alias="EBAY_CLIENT_ID")
     ebay_client_secret: str = Field("", alias="EBAY_CLIENT_SECRET")

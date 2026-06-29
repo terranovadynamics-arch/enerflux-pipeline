@@ -1,0 +1,10 @@
+name = "dealhunter-relay"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Hôtes autorisés par le relais (anti proxy ouvert). Le sous-domaine compte.
+[vars]
+ALLOWED_HOSTS = "api.ebay.com,www.ebay.com,api.telegram.org,www.chrono24.com,www.bobswatches.com,www.crownandcaliber.com,www.watchfinder.com,www.thewatchbox.com,subdial.com,www.watchuseek.com"
+
+# RELAY_SECRET n'est PAS mis ici (secret) : à définir via
+#   wrangler secret put RELAY_SECRET
