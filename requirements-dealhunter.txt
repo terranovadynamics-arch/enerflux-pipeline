@@ -1,0 +1,12 @@
+# Dépendances du module Deal Hunter (séparées de l'ancien pipeline enerflux)
+httpx>=0.27.0
+tenacity>=8.2.0
+SQLAlchemy>=2.0.0
+pydantic>=2.6.0
+pydantic-settings>=2.2.0
+python-dotenv>=1.0.0
+selectolax>=0.3.21
+# Optionnel : notifications Telegram (canal secondaire, désactivé par défaut)
+# python-telegram-bot>=21.0
+# Tests
+pytest>=8.0.0

@@ -1,0 +1,27 @@
+# Service systemd pour faire tourner Deal Hunter en arrière-plan (mode "non-stop").
+#
+# Installation :
+#   sudo cp deploy/dealhunter.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now dealhunter
+#   journalctl -u dealhunter -f      # suivre les logs
+#
+# Adaptez User, WorkingDirectory et le chemin du venv à votre installation.
+
+[Unit]
+Description=Deal Hunter - surveillance montres de luxe
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=dealhunter
+WorkingDirectory=/opt/dealhunter
+Environment=PYTHONUNBUFFERED=1
+# Le .env est lu depuis WorkingDirectory ; les secrets restent hors du code.
+ExecStart=/opt/dealhunter/.venv/bin/python -m dealhunter
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

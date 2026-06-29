@@ -1,0 +1,7 @@
+# Mode cron : alternative au service systemd / à la boucle interne.
+# Lance un cycle unique toutes les 30 minutes (--once).
+# L'état persistant SQLite assure le dédoublonnage entre les exécutions.
+#
+# Installation :  crontab -e   puis collez la ligne ci-dessous (chemins à adapter).
+
+*/30 * * * * cd /opt/dealhunter && /opt/dealhunter/.venv/bin/python -m dealhunter --once >> /var/log/dealhunter.log 2>&1

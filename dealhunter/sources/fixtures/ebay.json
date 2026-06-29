@@ -1,0 +1,66 @@
+[
+  {
+    "brand": "Rolex", "model": "Submariner", "reference": "126610LN", "year": 2022,
+    "condition": "very good", "set": "full", "asking_price_usd": 14800,
+    "currency_original": "USD", "seller": "watchpro_us", "seller_feedback": 99.6,
+    "seller_sales_count": 4120, "location": "US",
+    "url": "https://www.ebay.com/itm/demo-sub-1", "images": ["https://img/sub1.jpg"],
+    "source": "ebay"
+  },
+  {
+    "brand": "Rolex", "model": "Submariner", "reference": "126610LN", "year": 2021,
+    "condition": "good", "set": "full", "asking_price_usd": 15200,
+    "currency_original": "USD", "seller": "luxtime", "seller_feedback": 99.1,
+    "seller_sales_count": 980, "location": "US",
+    "url": "https://www.ebay.com/itm/demo-sub-2", "images": ["https://img/sub2.jpg"],
+    "source": "ebay"
+  },
+  {
+    "brand": "Rolex", "model": "Submariner", "reference": "126610LN", "year": 2023,
+    "condition": "unworn", "set": "full", "asking_price_usd": 15500,
+    "currency_original": "USD", "seller": "chronovault", "seller_feedback": 100.0,
+    "seller_sales_count": 6300, "location": "US",
+    "url": "https://www.ebay.com/itm/demo-sub-3", "images": ["https://img/sub3.jpg"],
+    "source": "ebay"
+  },
+  {
+    "brand": "Rolex", "model": "Submariner", "reference": "126610LN", "year": 2022,
+    "condition": "very good", "set": "full", "asking_price_usd": 12600,
+    "currency_original": "USD", "seller": "estatewatch", "seller_feedback": 98.7,
+    "seller_sales_count": 540, "location": "US",
+    "url": "https://www.ebay.com/itm/demo-sub-DEAL", "images": ["https://img/subdeal.jpg"],
+    "source": "ebay"
+  },
+  {
+    "brand": "Rolex", "model": "Submariner", "reference": "126610LN", "year": 2022,
+    "condition": "good", "set": "full", "asking_price_usd": 6900,
+    "currency_original": "USD", "seller": "newseller_001", "seller_feedback": 72.0,
+    "seller_sales_count": 3, "location": "Overseas",
+    "url": "https://www.ebay.com/itm/demo-sub-SCAM", "images": ["https://img/subscam.jpg"],
+    "source": "ebay"
+  },
+  {
+    "brand": "Audemars Piguet", "model": "Royal Oak", "reference": "15500", "year": 2020,
+    "condition": "very good", "set": "full", "asking_price_usd": 34000,
+    "currency_original": "USD", "seller": "horology_house", "seller_feedback": 99.9,
+    "seller_sales_count": 2100, "location": "US",
+    "url": "https://www.ebay.com/itm/demo-ro-1", "images": ["https://img/ro1.jpg"],
+    "source": "ebay"
+  },
+  {
+    "brand": "Audemars Piguet", "model": "Royal Oak", "reference": "15500", "year": 2021,
+    "condition": "unworn", "set": "full", "asking_price_usd": 35500,
+    "currency_original": "USD", "seller": "primewatches", "seller_feedback": 99.5,
+    "seller_sales_count": 1500, "location": "US",
+    "url": "https://www.ebay.com/itm/demo-ro-2", "images": ["https://img/ro2.jpg"],
+    "source": "ebay"
+  },
+  {
+    "brand": "Audemars Piguet", "model": "Royal Oak", "reference": "15500", "year": 2020,
+    "condition": "good", "set": "papers-only", "asking_price_usd": 29500,
+    "currency_original": "USD", "seller": "deal_dealer", "seller_feedback": 99.0,
+    "seller_sales_count": 410, "location": "US",
+    "url": "https://www.ebay.com/itm/demo-ro-DEAL", "images": ["https://img/rodeal.jpg"],
+    "source": "ebay"
+  }
+]
